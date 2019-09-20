@@ -26,7 +26,4 @@ public class SomeBusinessImpl {
         }
         return sum;
     }
-
-
-
 }

@@ -17,7 +17,6 @@ public class SomeBusinessImplTest {
     @Test
     public void calculateSumValidData() {
         int [] data={1,2,3};
-
         int expectedSum=6;
         int actualSum=business.calculateSum(data);
 
@@ -27,7 +26,6 @@ public class SomeBusinessImplTest {
     @Test
     public void calculateSumWithEmpityArray() {
         int [] data={};
-
         int expectedSum=0;
         int actualSum=business.calculateSum(data);
 
@@ -37,7 +35,6 @@ public class SomeBusinessImplTest {
     @Test
     public void calculateSumWithOneValue() {
         int [] data={10};
-
         int expectedSum=10;
         int actualSum=business.calculateSum(data);
 

@@ -24,10 +24,11 @@ public class ListMockTest {
 
     @Test
     public void testReturnDifferentValue() {
-        when(mock.size()).thenReturn(5).thenReturn(10);
+        when(mock.size()).thenReturn(5).thenReturn(10).thenReturn(40);
 
         assertEquals(5, mock.size());
         assertEquals(10, mock.size());
+        assertEquals(40, mock.size());
     }
 
     @Test
@@ -64,6 +65,7 @@ public class ListMockTest {
     public void argumentCapturing(){
         //SUT
         mock.add("SomeString");
+
 
         //verification
         ArgumentCaptor<String> captor=ArgumentCaptor.forClass(String.class);
@@ -106,8 +108,8 @@ public class ListMockTest {
     public void spying(){
         ArrayList arrayListSpy=spy(ArrayList.class);
         arrayListSpy.add("Test0");
-        System.out.println(arrayListSpy.get(0));//null
-        System.out.println(arrayListSpy.size());//0
+        System.out.println(arrayListSpy.get(0));//Test0
+        System.out.println(arrayListSpy.size());//1
         System.out.println(arrayListSpy.add("Test"));
         System.out.println(arrayListSpy.add("Test"));
         System.out.println(arrayListSpy.size());
