@@ -1,18 +1,30 @@
 package io.nk.unittestingwithjunitmockito.model;
 
-public class Item {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 
+@Entity
+public class Item {
+    @Id
     private int id;
-    private final String name;
-    private final int price;
-    private final int quantity;
+    private String name;
+    private int price;
+    private int quantity;
+
+    @Transient
+    private int value;
+
+    public Item() {
+    }
+
 
     public Item(int id, String name, int price, int quantity) {
 
-        this.id=id;
-        this.name=name;
-        this.price=price;
-        this.quantity=quantity;
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
     }
 
     public int getId() {
@@ -33,6 +45,14 @@ public class Item {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     @Override
