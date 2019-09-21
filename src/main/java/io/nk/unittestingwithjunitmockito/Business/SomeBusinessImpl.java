@@ -2,6 +2,8 @@ package io.nk.unittestingwithjunitmockito.Business;
 
 import io.nk.unittestingwithjunitmockito.data.SomeDataService;
 
+import java.util.Arrays;
+
 public class SomeBusinessImpl {
 
     private SomeDataService someDataService;
@@ -11,6 +13,10 @@ public class SomeBusinessImpl {
     }
 
     public int calculateSum(int[] data) {
+        return Arrays.stream(data).reduce(Integer::sum).orElse(0);
+    }
+
+    public int calculateSum1(int[] data) {
         int sum = 0;
         for (int value : data) {
             sum += value;

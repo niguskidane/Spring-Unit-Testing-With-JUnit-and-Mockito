@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -14,8 +15,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.print.attribute.standard.Media;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -70,6 +76,26 @@ public class ItemControllerTest {
         MvcResult result1=mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"id\":1,\"name\":\"Ball\",\"price\":10,\"quantity\":100}"))
+                .andReturn();
+    }
+
+
+    @Test
+    public void saveItemToDatabase() throws Exception {
+
+        RequestBuilder request=MockMvcRequestBuilders
+                .post("/add-item-to-database")
+                .accept(MediaType.APPLICATION_JSON).content("{\n" +
+                        "\"id\": 1004,\n" +
+                        "\"name\": \"Item4\",\n" +
+                        "\"price\": 20,\n" +
+                        "\"quantity\": 3,\n" +
+                        "\"value\": 30\n" +
+                        "}").contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result=mockMvc
+                .perform(request)
+                .andExpect(status().isCreated())
                 .andReturn();
     }
 

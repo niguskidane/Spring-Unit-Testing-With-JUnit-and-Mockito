@@ -1,13 +1,19 @@
 package io.nk.unittestingwithjunitmockito.controller;
 
+import com.sun.jndi.toolkit.url.Uri;
 import io.nk.unittestingwithjunitmockito.model.Item;
 import io.nk.unittestingwithjunitmockito.service.ItemBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class ItemController {
@@ -16,19 +22,46 @@ public class ItemController {
     private ItemBusinessService businessService;
 
     @GetMapping("/dummy-item")
-    public Item getDummyItem(){
-        return new Item(1, "Ball", 10,100);
+    public ResponseEntity<Item> getDummyItem() {
+        Item item = new Item(1, "Ball", 10, 100);
+        ResponseEntity response = new ResponseEntity<>(item, HttpStatus.OK);
+        return response;
     }
 
-
     @GetMapping("/dummy-item-from-business-service")
-    public Item getDummyItemFromBusinessService(){
-        return businessService.retriveHardCodedItem();
+    public ResponseEntity<Item> getDummyItemFromBusinessService() {
+        Item item = businessService.retriveHardCodedItem();
+        ResponseEntity entity = new ResponseEntity(item, HttpStatus.OK);
+        return entity;
     }
 
     @GetMapping("/all-item-from-database")
-    public List<Item> retriveAllItems(){
-        return businessService.retriveAllItems();
+    public ResponseEntity<Item> retriveAllItems() {
+        List<Item> items = businessService.retriveAllItems();
+        ResponseEntity response = new ResponseEntity(items,HttpStatus.OK);
+        return response;
+    }
+
+    @PostMapping("/add-item-to-database1")
+    public ResponseEntity<Object> saveItem1(@RequestBody Item item) {
+        Item item1 = businessService.addItem(item);
+        //Created
+        // /add-item-to-database/{id} item1.getId()
+
+        URI location=ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}").buildAndExpand(item1.getId()).toUri();
+        ResponseEntity entity=new ResponseEntity(HttpStatus.CREATED);
+        return entity.created(location).build();
+    }
+
+
+    //Another way to use @PostMapping with out the location
+    @PostMapping("/add-item-to-database")
+    public ResponseEntity<Item> saveItem(@RequestBody Item item) {
+        Item item1 = businessService.addItem(item);
+        ResponseEntity entity = new ResponseEntity(item1, HttpStatus.CREATED);
+        return entity;
     }
 
 

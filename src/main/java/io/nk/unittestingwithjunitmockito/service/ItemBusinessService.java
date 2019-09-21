@@ -26,4 +26,9 @@ public class ItemBusinessService {
         }
         return items;
     }
+
+
+    public Item addItem(Item item){
+        return repository.save(item);
+    }
 }
