@@ -1,6 +1,5 @@
 package io.nk.unittestingwithjunitmockito.controller;
 
-import com.sun.jndi.toolkit.url.Uri;
 import io.nk.unittestingwithjunitmockito.model.Item;
 import io.nk.unittestingwithjunitmockito.service.ItemBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +35,9 @@ public class ItemController {
     }
 
     @GetMapping("/all-item-from-database")
-    public ResponseEntity<Item> retriveAllItems() {
+    public ResponseEntity<List<Item>> retriveAllItems() {
         List<Item> items = businessService.retriveAllItems();
-        ResponseEntity response = new ResponseEntity(items,HttpStatus.OK);
+        ResponseEntity response = new ResponseEntity(items, HttpStatus.OK);
         return response;
     }
 
@@ -48,10 +47,10 @@ public class ItemController {
         //Created
         // /add-item-to-database/{id} item1.getId()
 
-        URI location=ServletUriComponentsBuilder
+        URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}").buildAndExpand(item1.getId()).toUri();
-        ResponseEntity entity=new ResponseEntity(HttpStatus.CREATED);
+        ResponseEntity entity = new ResponseEntity(HttpStatus.CREATED);
         return entity.created(location).build();
     }
 
