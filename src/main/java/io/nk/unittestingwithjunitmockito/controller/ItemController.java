@@ -3,6 +3,7 @@ package io.nk.unittestingwithjunitmockito.controller;
 import io.nk.unittestingwithjunitmockito.model.Item;
 import io.nk.unittestingwithjunitmockito.service.ItemBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,8 +51,12 @@ public class ItemController {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}").buildAndExpand(item1.getId()).toUri();
-        ResponseEntity entity = new ResponseEntity(HttpStatus.CREATED);
-        return entity.created(location).build();
+
+        HttpHeaders headers=new HttpHeaders();
+        headers.setLocation(location);
+
+        ResponseEntity entity = new ResponseEntity(headers,HttpStatus.CREATED);
+        return entity;
     }
 
 
